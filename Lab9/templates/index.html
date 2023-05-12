@@ -2,14 +2,26 @@
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Портфолиа разработчика</title>
+        <title>Портфолио разработчика</title>
+        <style>
+            body {
+                font-family: "Trebuchet MS", sans-serif;
+            }
+        </style>
     </head>
-    <body style="background-color: rgb(65, 57, 137); display: flex; justify-content: center;">
-        <div style="width: 800px; border-radius: 20px; background-color: white; padding: 40px;">
+    <body style="background-color: rgb(169, 144, 126); display: flex; justify-content: center; ">
+        <div style="width: 800px; border-radius: 20px; background-color: rgb(171, 196, 170); padding: 40px;">
             <div style="border-radius: 8px; background: red; width: 100%; text-align: center;">
                 <h1 style="color: white; margin: 18px 12px;">{{ error }}</h1>
             </div>
-            <h2>Введите название портфолио разработчика</h2>
+            <h2>Портфолио разработчика
+                <style>
+                    body {
+                        text-align: center;
+                    }
+                </style>
+            </h2>
+            
             <form method="post" action="/portfolio" style="display: flex; align-items: center; flex-direction: column;">
                 <label style="width: 100%;">
                     Название портфолиа разработчика
@@ -39,7 +51,7 @@
                            placeholder="Пожалуйста, введите ссылку на репозиторий">
                         </label>
                 <button type="submit" style="
-                                            background-color: forestgreen;
+                                            background-color: rgb(103, 93, 80);
                                             color: white;
                                             border-radius: 20px;
                                             padding: 8px;
@@ -49,22 +61,22 @@
                                             ">Добавить</button>
             </form>
             </form>
-<h2>Список портфолиа разработчика:</h2>
+<h2>СПИСОК ПОРТФОЛИА РАЗРАБОТЧИКА:</h2>
             <table style="width: 100%; border: none;">
-                <tr style="background: #000;">
-                    <th style="padding: 18px 12px; text-align: left; color: white;">Название</th>
-                    <th style="padding: 18px 12px; text-align: right; color: white;">Ссылка на репозиторий</th>
+                <tr style="background: #000; text-align: center;">
+                    <th style="padding: 18px 12px; text-align: center; color: white; font-style: normal;">Название</th>
+                    <th style="padding: 18px 12px; text-align: center; color: white; font-style: normal">Ссылка на репозиторий</th>
                 </tr>
                 {% for portfolio in portfolios %}
                     {% if loop.index % 2 == 0 %}
-                        <tr style="background: #EEEEEE">
+                        <tr style="background: rgb(243, 222, 186)">
                             <td style="padding: 18px 12px; text-align: left;">{{ portfolio.portfolio_name }}</td>
-                            <td style="padding: 18px 12px; text-align: right;"><a href="{{ portfolio.portfolio_link }}">{{ portfolio.portfolio_link }}</a></td>
+                            <td style="padding: 18px 12px; text-align: left;"><a href="{{ portfolio.portfolio_link }}">{{ portfolio.portfolio_link }}</a></td>
                         </tr>
                     {% else %}
-                        <tr>
+                        <tr style="background: rgb(169, 144, 126)">
                             <td style="padding: 18px 12px; text-align: left;">{{ portfolio.portfolio_name }}</td>
-                            <td style="padding: 18px 12px; text-align: right;"><a href="{{ portfolio.portfolio_link }}">{{ portfolio.portfolio_link }}</a></td>
+                            <td style="padding: 18px 12px; text-align: left;"><a href="{{ portfolio.portfolio_link }}">{{ portfolio.portfolio_link }}</a></td>
                         </tr>
                     {% endif %}
                 {% endfor %}
