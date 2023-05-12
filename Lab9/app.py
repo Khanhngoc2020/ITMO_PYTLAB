@@ -1,6 +1,8 @@
 
 import flask
 from flask import Flask, request, redirect, url_for
+import requests
+
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -36,8 +38,15 @@ def add_new_portfolio():
     portfolio_link = request.form['portfolio_link']
 
     if portfolio_name == '' or portfolio_link == '':
-        return redirect(url_for('index', error='Пожалуйста, введите название города и дату посещения'))
+        return redirect(url_for('index', error='Пожалуйста, введите название портфолио и ссылку на репозиторий (рабочая)'))
 
+    url = portfolio_link # Ссылка, которая вы хотите проверить
+
+    try:
+        response = requests.get(url) # Отправить запрос HTTP GET на путь
+        response.raise_for_status() # Проверьте, не является ли код состояния HTTP ошибочным.g
+    except requests.exceptions.RequestException:
+        return redirect(url_for('index', error='Ссылка работает'))
     db.session.add(Portfolio(portfolio_name, portfolio_link))
     db.session.commit()
 
