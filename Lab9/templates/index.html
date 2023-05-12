@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Портфолиа разработчика</title>
+    </head>
+    <body style="background-color: rgb(65, 57, 137); display: flex; justify-content: center;">
+        <div style="width: 800px; border-radius: 20px; background-color: white; padding: 40px;">
+            <div style="border-radius: 8px; background: red; width: 100%; text-align: center;">
+                <h1 style="color: white; margin: 18px 12px;">{{ error }}</h1>
+            </div>
+            <h2>Введите название портфолио разработчика</h2>
+            <form method="post" action="/portfolio" style="display: flex; align-items: center; flex-direction: column;">
+                <label style="width: 100%;">
+                    Название портфолиа разработчика
+                    <br/>
+                    <input type="text" name="portfolio_name"
+                           style="
+                                width: 100%;
+                                margin-top: 8px;
+                                margin-bottom: 24px;
+                                border-radius: 4px;
+                                padding: 16px;
+                                box-sizing: border-box;
+                                "
+                           placeholder="Пожалуйста, введите название портфолиа разработчика">
+                </label>
+                <label style="width: 100%;">
+                    Ссылка на репозиторий 
+                    <input type="text" name="portfolio_link"
+                           style="
+                                width: 100%;
+                                margin-top: 8px;
+                                margin-bottom: 24px;
+                                border-radius: 4px;
+                                padding: 16px;
+                                box-sizing: border-box;
+                                "
+                           placeholder="Пожалуйста, введите ссылку на репозиторий">
+                        </label>
+                <button type="submit" style="
+                                            background-color: forestgreen;
+                                            color: white;
+                                            border-radius: 20px;
+                                            padding: 8px;
+                                            box-shadow: none;
+                                            width: 200px;
+                                            border: none;
+                                            ">Добавить</button>
+            </form>
+            </form>
+<h2>Список портфолиа разработчика:</h2>
+            <table style="width: 100%; border: none;">
+                <tr style="background: #000;">
+                    <th style="padding: 18px 12px; text-align: left; color: white;">Название</th>
+                    <th style="padding: 18px 12px; text-align: right; color: white;">Ссылка на репозиторий</th>
+                </tr>
+                {% for portfolio in portfolios %}
+                    {% if loop.index % 2 == 0 %}
+                        <tr style="background: #EEEEEE">
+                            <td style="padding: 18px 12px; text-align: left;">{{ portfolio.portfolio_name }}</td>
+                            <td style="padding: 18px 12px; text-align: right;"><a href="{{ portfolio.portfolio_link }}">{{ portfolio.portfolio_link }}</a></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td style="padding: 18px 12px; text-align: left;">{{ portfolio.portfolio_name }}</td>
+                            <td style="padding: 18px 12px; text-align: right;"><a href="{{ portfolio.portfolio_link }}">{{ portfolio.portfolio_link }}</a></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+            <div style="display: flex; align-items: center; flex-direction: column;">
+                <button type="submit"
+                        style="
+                            background-color: darkred;
+                            color: white;
+                            border-radius: 20px;
+                            padding: 8px;
+                            box-shadow: none;
+                            width: 200px;
+                            margin-top: 24px;
+                            border: none;
+                        "
+                        onclick="
+                            fetch('/portfolio',  {
+                                method: 'DELETE'
+                            })
+                            .then(() => window.location.href = '/');
+                        "
+                >
+                    Удалить все
+                </button>
+            </div>
+        </div>
+    </body>
+    </html>
