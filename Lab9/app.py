@@ -46,7 +46,7 @@ def add_new_portfolio():
         response = requests.get(url) # Отправить запрос HTTP GET на путь
         response.raise_for_status() # Проверьте, не является ли код состояния HTTP ошибочным.g
     except requests.exceptions.RequestException:
-        return redirect(url_for('index', error='Ссылка работает'))
+        return redirect(url_for('index', error='Ссылка не работает'))
     db.session.add(Portfolio(portfolio_name, portfolio_link))
     db.session.commit()
 
