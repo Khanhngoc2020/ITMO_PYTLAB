@@ -2,14 +2,36 @@ import json
 import requests
 
 import speech_recognition as sr 
+import pyaudio
 
 
-word = input("Enter a word you like: ")
-url = f'https://api.dictionaryapi.dev/api/v2/entries/en/{word}'
+
+def find_word():
+    
+    word = ""
+    
+   # Khởi tạo recognizer (dùng để nhận dạng giọng nói)
+    r = sr.Recognizer()
+
+    # Sử dụng microphone đẻ lấy giọng nói từ bạn
+    with sr.Microphone() as source:
+        print("Say the word you want to find:...")
+        audio = r.listen(source)
+    try:
+        word += r.recognize_google(audio, language='en-US')
+        # print("The word you want to find is: f'{word}'")
+    except sr.UnknownValueError:
+        print("Unable to recognize voice")
+    except sr.RequestError as e:
+        print("Error during offline speech recognition: {0}".format(e))
+    
+    return word 
 
 
 # Hàm trả về ý nghĩa và ví dụ với ý nghĩa đó của từ 
 def meanings_and_examples():
+    word = find_word()
+    url = f'https://api.dictionaryapi.dev/api/v2/entries/en/{word}'
     # Tạo một LIST để chứa các phần tử của response["meanings"] để dễ xử lí hơn 
     arr = []
     response = requests.get(url)
@@ -68,7 +90,9 @@ def meanings_and_examples():
 
 # Hàm lấy về URL hay còn gọi là link của từ mà bạn vừa nhập 
 def get_links():
-    response = requests.get()
+    word = find_word()
+    url = f'https://api.dictionaryapi.dev/api/v2/entries/en/{word}'
+    response = requests.get(url)
     response = response.json()
     response = response[0]
 
@@ -85,7 +109,7 @@ def save():
     dictionary = meanings_and_examples()
     
     # Tạo một DICTIONARY mới gồm có key: word và value: "word" - từ mà bạn nhập vào 
-    word_dict = {"word: ": word}
+    word_dict = {"word: ": find_word()}
     link_dict = {"link: ": get_links()}
     
     # Dùng hàm DICT.update() để thêm vào DICTIONARY 
@@ -100,6 +124,8 @@ def save():
 # save()
 
 def main():
+    
+    
     # Khởi tạo recognizer (dùng để nhận dạng giọng nói)
     r = sr.Recognizer()
 
@@ -112,7 +138,7 @@ def main():
         
         # Dùng hàm try_except để xử lí các ngoại lệ trong quá trình chuyển đổi giọng nói thành văn bản 
         # Và nếu khi bạn không sử dùng lệnh này chương trình sẽ có thể dừng đột ngột và không kịp thu 
-        # âm thanh khi bạn nói ra ==> BẮT BUỘC BẠN PHẢI DÙNG LỆNH NÀY NHÁ BẠN "TRẺ TROU 2K3 MIỀN NAM"
+        # âm thanh khi bạn nói ra ==> BẮT BUỘC
         try:
             # Chuyển đổi giọng nói thành văn bản 
             text += r.recognize_google(audio, language='en-US')
@@ -135,4 +161,4 @@ def main():
             print("Invalid request!!!")
 
 # Hàm main()
-main()
+main()  
